@@ -3,8 +3,9 @@ use clap::builder::Str;
 use log::info;
 use crypto::{digest::Digest, sha2::Sha256};
 
+use crate::errors::Result;
+
 const TARGET_HEXT: usize = 4;
-pub type Result<T> = std::result::Result<T, failure::Error>;
 
 #[derive(Debug, Clone)]
 pub struct Block {
@@ -14,11 +15,6 @@ pub struct Block {
     hash: String,
     height: usize,
     nonce: i32,
-}
-
-#[derive(Debug)]
-pub struct Blockchain {
-    blocks: Vec<Block>
 }
 
 impl Block {
@@ -79,43 +75,5 @@ impl Block {
         hasher.input(&data[..]);
         let target = "0".repeat(TARGET_HEXT);
         Ok(&hasher.result_str()[0..TARGET_HEXT] == target)
-    }
-}
-
-impl Blockchain {
-    pub fn new() -> Blockchain {
-        Blockchain {
-            blocks: vec![Block::new_genesis_block()]
-        }
-    }
-
-    pub fn add_block(&mut self, data: String) -> Result<()> {
-        let prev = self.blocks.last().unwrap();
-        let new_block = Block::new_block(data, prev.get_hash(), TARGET_HEXT)?;
-        self.blocks.push(new_block);
-        Ok(())
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_blockchain() {
-        let mut b = Blockchain::new();
-
-        b.add_block("data1".to_string());
-        b.add_block("data2".to_string());
-        b.add_block("data3".to_string());
-        
-        assert_eq!(b.blocks.len(), 4); 
-        assert_eq!(b.blocks[1].transactions, "data1");
-        assert_eq!(b.blocks[2].transactions, "data2");
-        assert_eq!(b.blocks[3].transactions, "data3");
-
-        assert_eq!(&b.blocks[1].hash[0..4], "0000");
-        assert_eq!(&b.blocks[2].hash[0..4], "0000");
-        assert_eq!(&b.blocks[3].hash[0..4], "0000");
     }
 }
