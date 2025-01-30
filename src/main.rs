@@ -1,6 +1,10 @@
 mod block;
 mod blockchain;
 mod errors;
+mod mempool;
+mod miner;
+mod transaction;
+mod wallet;
 
 use crate::block::Block;
 use crate::blockchain::Blockchain;

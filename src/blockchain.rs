@@ -5,7 +5,7 @@ const TARGET_HEXT: usize = 4;
 
 #[derive(Debug)]
 pub struct Blockchain {
-    blocks: Vec<Block>
+    blocks: Vec<Block>,
 }
 
 impl Blockchain {
