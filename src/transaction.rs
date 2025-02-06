@@ -1,8 +1,20 @@
 #[derive(Debug, Clone, Eq, PartialEq)]
-pub struct Transaction {
-    id: u64,
-    sender: String,
-    receiver: String,
+pub struct UTXO {
+    tx_id: String,
+    output_index: u32,
     amount: u64,
-    fee: u64    //higher fee = higher tx priority
+    owner: String    //higher fee = higher tx priority
+}
+
+#[derive(Debug, Clone)]
+pub struct Transaction {
+    tx_id: String,
+    inputs: Vec<UTXO>,
+    outputs: Vec<UTXO>
+}
+
+impl Transaction {
+    pub fn send() {
+        
+    }
 }

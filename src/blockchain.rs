@@ -1,17 +1,23 @@
+use std::collections::HashMap;
+use std::sync::{Arc, Mutex};
+
 use crate::block::Block;
 use crate::errors::Result;
+use crate::transaction::UTXO;
 
 const TARGET_HEXT: usize = 4;
 
 #[derive(Debug)]
 pub struct Blockchain {
     blocks: Vec<Block>,
+    utxo_pool: Arc<Mutex<HashMap<String, Vec<UTXO>>>>,
 }
 
 impl Blockchain {
     pub fn new() -> Blockchain {
         Blockchain {
-            blocks: vec![Block::new_genesis_block()]
+            blocks: vec![Block::new_genesis_block()],
+            utxo_pool: Arc::new((Mutex::new((HashMap::new()))))
         }
     }
 
