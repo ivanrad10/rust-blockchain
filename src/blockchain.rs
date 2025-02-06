@@ -73,6 +73,7 @@ impl Blockchain {
         };
     
         // Remove spent UTXOs from the pool
+        // Remove, should happen after the tx is validated and mined within a block
         let sender_utxos = utxo_pool.get_mut(&from)?;
         sender_utxos.retain(|utxo| !selected_utxos.contains(utxo)); 
     
